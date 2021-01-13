@@ -6,74 +6,82 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: HYHomePage(),
+      home: ZXYHomePage(),
     );
   }
 }
 
-class HYHomePage extends StatelessWidget {
+class ZXYHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("商品列表"),
+        title: Text("计数器项目"),
       ),
-      body: HYHomeContent(),
+      body: ZXYHomeContent("你好呀，菜逼张程序员"),
     );
   }
 }
 
-class HYHomeContent extends StatelessWidget {
+//Widget是不加 _ :暴露给别人使用，加_自己使用
+// State是加_: 状态这个类只是给Widget使用
+class ZXYHomeContent extends StatefulWidget {
+  final String message;
+  ZXYHomeContent(this.message);
+
   @override
-  Widget build(BuildContext context) {
-    return ListView(
-      children: <Widget>[
-        HYHomeProductItem("Apple1", "Macbook1", "https://tva1.sinaimg.cn/large/006y8mN6gy1g72j6nk1d4j30u00k0n0j.jpg"),
-        SizedBox(height: 6,),
-        HYHomeProductItem("Apple2", "Macbook2", "https://tva1.sinaimg.cn/large/006y8mN6gy1g72imm9u5zj30u00k0adf.jpg"),
-        SizedBox(height: 6,),
-        HYHomeProductItem("Apple3", "Macbook2", "https://tva1.sinaimg.cn/large/006y8mN6gy1g72imqlouhj30u00k00v0.jpg"),
-      ],
-    );
+  State<StatefulWidget> createState() {
+    return _ZXYHomeContentState();
   }
 }
 
-class HYHomeProductItem extends StatelessWidget {
-  final String title;
-  final String desc;
-  final String imageURL;
-
-  final style1 = TextStyle(fontSize: 25, color: Colors.orange);
-  final style2 = TextStyle(fontSize: 20, color: Colors.green);
-
-  HYHomeProductItem(this.title, this.desc, this.imageURL);
+/**
+ * 为什么Flutter在设计的时候StatefulWidget的build方法放在State中
+ *  1.build出来的Widget是需要依赖State中的变量(状态/数据)
+ *  2.在Flutter的运行过程中:
+ *    Widget是不断的销毁和创建的
+ *    当我们自己的状态发生改变时, 并不希望重新状态一个新的State
+ */
+class _ZXYHomeContentState extends State<ZXYHomeContent> {
+  int _counter = 0;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(12),
-      decoration: BoxDecoration(
-          border: Border.all(
-              width: 5, // 设置边框的宽度
-              color: Colors.black// 设置边框的颜色
-          )
-      ),
+    return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.end,
         children: <Widget>[
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Text(title, style: style1),
-            ],
-          ),
-          SizedBox(height: 8),
-          Text(desc, style: style2),
-          SizedBox(height: 8),
-          Image.network(imageURL)
+          _getButtons(),
+          Text("当前计数$_counter", style: TextStyle(fontSize: 25),),
+          Text("传递的信息:${widget.message}")
         ],
       ),
+    );
+  }
+
+  Widget _getButtons() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        RaisedButton(
+          child: Text("+", style: TextStyle(fontSize: 20, color: Colors.white),),
+          color: Colors.pink,
+          onPressed: () {
+            setState(() {
+              _counter++;
+            });
+          },
+        ),
+        RaisedButton(
+            child: Text("-", style: TextStyle(fontSize: 20, color: Colors.white),),
+            color: Colors.purple,
+            onPressed: () {
+              setState(() {
+                _counter--;
+              });
+            }
+        ),
+      ],
     );
   }
 }
