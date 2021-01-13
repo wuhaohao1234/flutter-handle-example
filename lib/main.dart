@@ -7,17 +7,23 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('title'),
-        ),
-        body: Center(
-          child: Text(
-            'data',
-            textDirection: TextDirection.ltr,
-            style: TextStyle(color: Colors.blue, fontSize: 30),
-          ),
-        ),
-    ));
+        home: Scaffold(
+            appBar: AppBar(
+              title: Text('title'),
+            ),
+            body: Center(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Checkbox(
+                      value: true, onChanged: (value) => print("Hello World")),
+                  Text(
+                    "同意协议",
+                    textDirection: TextDirection.ltr,
+                    style: TextStyle(fontSize: 20),
+                  )
+                ],
+              ),
+            )));
   }
 }
