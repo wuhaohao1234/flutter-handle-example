@@ -1,75 +1,57 @@
 import 'package:flutter/material.dart';
 
-// 等价于main() => runApp(MyApp()); 箭头函数的使用
-void main() {
-  runApp(MyApp());
-}
+main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      //对于主题颜色设置
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+      home: ZXYHomePage(),
+    );
+  }
+}
+
+class ZXYHomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("商品列表"),
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      body: ZXYHomeContent(),
+    );
+  }
+}
+class ZXYHomeContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ListView(
+      children: <Widget>[
+        ZXYHomeProductItem("Apple1", "Macbook Product1", "https://tva1.sinaimg.cn/large/006y8mN6gy1g72j6nk1d4j30u00k0n0j.jpg"),
+        ZXYHomeProductItem("Apple2", "Macbook Product2", "https://tva1.sinaimg.cn/large/006y8mN6gy1g72imm9u5zj30u00k0adf.jpg"),
+        ZXYHomeProductItem("Apple3", "Macbook Product3", "https://tva1.sinaimg.cn/large/006y8mN6gy1g72imqlouhj30u00k00v0.jpg"),
+      ],
     );
   }
 }
 
 
-/**
- * StatefulWidget: 分为两个类
- * 1.集成自StatefulWidget的类【作用：1. 有一个必须实现的方法，如下：createState() 2. 可以接收父widget传过来的数据】
- * 2.对应着有state这个类【作用是保存状态】
- */
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+class ZXYHomeProductItem extends StatelessWidget {
+
   final String title;
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
+  final String desc;
+  final String imageURL;
 
-//下一篇博客会着重讲述StatefulWidget和StatelessWidget以及state
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  //实现++功能
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  ZXYHomeProductItem(this.title, this.desc, this.imageURL);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        //点击右下角的按钮，实现自加
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+    return Column(
+      children: [
+        Text(title, style: TextStyle(fontSize: 24)),
+        Text(desc, style: TextStyle(fontSize: 18)),
+        Image.network(imageURL)
+      ],
     );
   }
 }
