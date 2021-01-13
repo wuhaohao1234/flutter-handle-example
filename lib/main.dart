@@ -6,6 +6,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return Text("Hello World 你好", textDirection: TextDirection.ltr);
+    return Center(
+      child: Text(
+        "Hello World",
+        textDirection: TextDirection.ltr,
+        style: TextStyle(
+          fontSize: 30,
+          color: Colors.orange,
+        ),
+      ),
+    );
   }
 }
